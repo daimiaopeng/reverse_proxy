@@ -35,6 +35,7 @@ public:
                                });
     }
     void close(){
+
         _sock.close();
     }
     ~Client(){
@@ -75,7 +76,6 @@ private:
     tcp::endpoint _endpoint;
     boost::asio::io_context &_ioContext;
     tcp::socket _sock;
-
     tcp::socket& _serverSocket;
 };
 

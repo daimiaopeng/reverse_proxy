@@ -34,9 +34,12 @@ public:
         initClent();
         do_read();
     }
-    ~Session(){
+
+    ~Session() {
+        delete client;
         _socket.close();
     }
+
 private:
     void do_read() {
         auto self(shared_from_this());
@@ -51,7 +54,7 @@ private:
                                         client->do_write(buff.get(), len);
                                         do_read();
                                     } else {
-                                        cout<<"Client close"<<endl;
+                                        cout << "Client close" << endl;
                                         client->close();
                                         _socket.close();
                                     }
