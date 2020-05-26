@@ -1,0 +1,21 @@
+cmake_minimum_required(VERSION 3.10)
+project(reverse_proxy)
+
+set(CMAKE_CXX_STANDARD 14)
+IF (CMAKE_SYSTEM_NAME MATCHES "Linux")
+    set(Boost_INCLUDE_DIR /usr/local/include/boost)
+    set(Boost_LIBRARY_DIR /usr/local/lib)
+    include_directories('/usr/local/protobuf/include')
+    link_directories('/usr/local/protobuf/lib')
+    execute_process(COMMAND protoc message.proto --cpp_out=./ WORKING_DIRECTORY ../)
+ELSEIF (CMAKE_SYSTEM_NAME MATCHES "Windows")
+    find_package(protobuf CONFIG REQUIRED)
+    set(Boost_INCLUDE_DIR "D:\\PATH\\boost_1_70_0")
+    set(Boost_LIBRARY_DIR "D:\\PATH\\boost_1_70_0\\lib64-msvc-14.2")
+ENDIF (CMAKE_SYSTEM_NAME MATCHES "Linux")
+
+include_directories(${Boost_INCLUDE_DIR})
+link_directories(${Boost_LIBRARY_DIR})
+
+add_executable(reverse_proxy client.cpp server.cpp)
+target_link_libraries(reverse_proxy pthread boost_system boost_thread boost_coroutine)
