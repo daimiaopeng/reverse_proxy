@@ -24,11 +24,14 @@ public:
         do_connect();
     }
 
-    void do_write(char *sendData, int len) {
-        _sock.async_write_some(boost::asio::buffer(sendData,len),
-                               [this, sendData](boost::system::error_code ec, std::size_t) {
+    void do_write(shared_ptr<char[]> sendData,int len) {
+        _sock.async_write_some(boost::asio::buffer(sendData.get(),len),
+                               [this, sendData](boost::system::error_code ec, int len) {
                                    if (!ec) {
-
+                                       string data(sendData.get(), len);
+                                       cout << "-----server read len：----" << len << endl;
+                                       cout << data << endl;
+                                       cout << "--------------------" << endl;
                                    } else {
                                        std::cout << "ec " << ec << "\n";
                                    }

@@ -51,7 +51,7 @@ private:
                                         cout << "-----server read len：----" << len << endl;
                                         cout << data << endl;
                                         cout << "--------------------" << endl;
-                                        client->do_write(buff.get(), len);
+                                        client->do_write(buff ,len);
                                         do_read();
                                     } else {
                                         cout << "Client close" << endl;
